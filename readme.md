@@ -7,8 +7,23 @@ This is a simple framework aimed at making UI development easy for scripts that 
 Copy the [latest version](https://raw.githubusercontent.com/Frontesque/NEXT-UI-Framework/main/latest.js) to the top of your JavaScript program
 
 ### Example
-```
-NEXT.create('DemoWindow', 350, 250); // Creates a new window using NEXT
-const div = NEXT.new('DemoWindow','div'); // Adds a new object to the window named "DemoWindow"
-div.innerHTML = "Hello, World!"; // Change the text within the newly added object
+```js
+NEXT.create('dummy', {
+	canExit: false,
+});
+NEXT.new('dummy','p').innerHTML = "Welcome to the NEXT UI Framework!"
+
+const mainWindow = NEXT.create('main', {
+	title: 'NEXT Framework Example',
+	width: 350,
+	height: 225,
+	canExit: true,
+});
+mainWindow.style.padding = "0.5em";
+
+const toggleButton = NEXT.new('main','button');
+toggleButton.innerHTML = "Click To Toggle Window Visibility";
+toggleButton.onclick = () => {
+    NEXT.toggle('dummy');
+}
 ```
