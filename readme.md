@@ -4,7 +4,7 @@
 This is a simple framework aimed at making UI development easy for scripts that you inject into other web pages (ex: game cheats)
 
 ### Install
-Use the [latest version](https://raw.githubusercontent.com/Frontesque/NEXT-UI-Framework/main/latest.js)
+Copy the [latest version](https://raw.githubusercontent.com/Frontesque/NEXT-UI-Framework/main/latest.js) to the top of your JavaScript program
 
 ### Example
 ```
