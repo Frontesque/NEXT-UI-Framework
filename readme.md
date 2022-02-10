@@ -34,3 +34,5 @@ toggleButton.onclick = () => {
 - canExit: boolean
 - width: integer
 - height: integer
+- background: string
+- draggable: boolean (BETA 1.3 ONLY)
