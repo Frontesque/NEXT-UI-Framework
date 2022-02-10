@@ -147,6 +147,14 @@ const NEXT = {
             return this.log("Error closing window '"+windowName+"'. Window not found.", true);
         }
     },
+    
+    css: function(style) {
+        var styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = style;
+        document.head.appendChild(styleSheet);
+        return styleSheet;
+    }
 
 }
 
@@ -157,5 +165,5 @@ const NEXT = {
 Changelog:
 + Added "NEXT.getRaw"
 + Bug Fixes
-
++ Added "NEXT.css" to insert a CSS file into the page
 */
