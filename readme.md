@@ -27,3 +27,10 @@ toggleButton.onclick = () => {
     NEXT.toggle('dummy');
 }
 ```
+
+## Documentation
+### NEXT.create
+- title: string
+- canExit: boolean
+- width: integer
+- height: integer
