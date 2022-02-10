@@ -92,6 +92,15 @@ const NEXT = {
             return this.log("Error finding window '"+windowName+"'.", true);
         }
     },
+    
+    getRaw: function(windowName) {
+        const raw = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
+        if (raw) {
+            return raw;
+        } else {
+            return this.log("Error finding window '"+windowName+"'.", true);
+        }
+    },
 
     toggle: function(windowName) {
         const windowTitle = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
