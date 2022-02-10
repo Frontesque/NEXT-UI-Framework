@@ -155,7 +155,7 @@ const NEXT = {
 /*
 
 Changelog:
-+ Added "background" option in creation settings
-+ Added "titleBackground" option in creation settings
++ Added "NEXT.getRaw"
++ Bug Fixes
 
 */
