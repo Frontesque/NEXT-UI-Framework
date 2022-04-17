@@ -6,6 +6,13 @@ This is a simple framework aimed at making UI development easy for scripts that 
 ### Install
 Copy the [latest version](https://raw.githubusercontent.com/Frontesque/NEXT-UI-Framework/main/latest.js) to the top of your JavaScript program
 
+You can also automatically load the script with this code:
+```js
+(function(d, s) { let NUXT_Loader = d.createElement('script'); NUXT_Loader.type = 'text/javascript'; NUXT_Loader.onload = function(){
+    // remote script has loaded
+}; NUXT_Loader.src = 'https://frontesque.github.io/NEXT-UI-Framework/latest.js'; d.getElementsByTagName('head')[0].appendChild(NUXT_Loader); }(document));
+```
+
 ### Example
 ```js
 NEXT.create('dummy', {
