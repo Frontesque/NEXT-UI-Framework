@@ -8,9 +8,9 @@ Copy the [latest version](https://raw.githubusercontent.com/Frontesque/NEXT-UI-F
 
 You can also automatically load the script with this code:
 ```js
-(function(t,e){let a=t.createElement("script");a.type="text/javascript",a.onload=function(){
-    // NUXT is injected here
-},a.src="https://frontesque.github.io/NEXT-UI-Framework/latest.js",t.getElementsByTagName("head")[0].appendChild(a)})(document);
+(function(t,e){let a=t.createElement("script");a.type="text/javascript",a.src="https://frontesque.github.io/NEXT-UI-Framework/latest.js",t.getElementsByTagName("head")[0].appendChild(a),a.onload=function(){
+    // NEXT is injected here
+}})(document);
 ```
 
 ### Example
