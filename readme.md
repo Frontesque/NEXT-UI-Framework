@@ -18,7 +18,8 @@ You can also automatically load the script with this code:
 NEXT.create('dummy', {
 	canExit: false,
 });
-NEXT.new('dummy','p').innerHTML = "Welcome to the NEXT UI Framework!"
+NEXT.new('dummy','div')
+    .innerHTML = `Welcome to NEXT UI Framework <span style="background: #999; border-radius: 3px;">${NEXT.variables.version}</span>!`
 
 const mainWindow = NEXT.create('main', {
 	title: 'NEXT Framework Example',
@@ -43,4 +44,4 @@ toggleButton.onclick = () => {
 - height: integer
 - background: string (HEX)
 - titleBackground: string (HEX)
-- draggable: boolean (BETA 1.3 ONLY)
+- draggable: boolean
