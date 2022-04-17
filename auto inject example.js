@@ -5,6 +5,6 @@
     document.getElementsByTagName('head')[0].appendChild(NUXT_Loader);
 
     NUXT_Loader.onload = function(){
-        // NUXT is injected here
+        // NEXT is injected here
     };
 }(document));
