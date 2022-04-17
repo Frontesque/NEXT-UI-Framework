@@ -1,18 +1,20 @@
 const NEXT = {
 
     variables: {
-        "version": "1.3 BETA",
-        "objectPrefix": "NEXT-",
-        "titleBarSuffix": "-TITLE",
-        "logPrefix": "[NEXT Framework]",
-        "errorPrefix": "(ERROR)"
+        version: "1.3",
+        objectPrefix: "NEXT-",
+        titleBarSuffix: "-TITLE",
+        logPrefix: "[NEXT Framework]",
+        errorPrefix: "(ERROR)",
+
+        isInit: false
     },
 
     frameworks: {
         dragElement: function(e){function n(e){e=e||window.event,e.preventDefault(),d=e.clientX,m=e.clientY,document.onmouseup=o,document.onmousemove=t}function t(n){n=n||window.event,n.preventDefault(),u=d-n.clientX,l=m-n.clientY,d=n.clientX,m=n.clientY,e.style.top=e.offsetTop-l+"px",e.style.left=e.offsetLeft-u+"px"}function o(){document.onmouseup=null,document.onmousemove=null}var u=0,l=0,d=0,m=0;document.getElementById(e.id+"header")?document.getElementById(e.id+"header").onmousedown=n:e.onmousedown=n}
     },
 
-    log: function(text, err) {
+    log(text, err) {
         if (err === true) {
             console.error(this.variables.logPrefix, this.variables.errorPrefix, text);
         } else {
@@ -20,34 +22,26 @@ const NEXT = {
         }
     },
 
-    create: function(windowName, options) {
+    create(windowName, options) {
+
+        this.init();
+
         //Set Up Title Bar
         const title = document.createElement('div');
-        title.style.zIndex = "1000";
-        title.style.position = "absolute";
-        title.innerHTML = options.title || windowName
-        title.style['font-family'] = "Arial, Helvetica, sans-serif";
-        title.style.color = "white";
-        title.id = this.variables.objectPrefix+windowName+this.variables.titleBarSuffix;
-        title.style.width = options.width ? options.width+"px" : "250px";
-        title.style.height = "20px";
-        title.style.background = options.titleBackground || "#333";
-        title.style.borderRadius = "5px 5px 0 0";
-        title.style.boxShadow = "0 0 5px black";
-        title.style.visibility = "visible";
         if(options.draggable != false) {
             this.frameworks.dragElement(title)
         }
 
+        title.className += "NUXT-Title";
+        title.innerHTML = options.title || windowName;
+        title.id = this.variables.objectPrefix+windowName+this.variables.titleBarSuffix;
+        title.style.width = options.width ? options.width+"px" : "250px";
+        title.style.background = options.titleBackground || "#333";
+
         //Set Up Close Window
         const close = document.createElement('div');
         close.innerHTML = "x";
-        close.style['font-family'] = "Arial, Helvetica, sans-serif";
-        close.style.position = "absolute";
-        close.style.top = "-1px"
-        close.style.right = "5px"
-        close.style.cursor = "pointer";
-        close.style.color = "#ff5566";
+        close.className += "NUXT-Close";
         title.append(close);
 
         close.onclick = function() {
@@ -59,13 +53,10 @@ const NEXT = {
 
         //Set Up Window
         const window = document.createElement('div');
-        title.style.zIndex = "999";
         window.style.width = options.width ? options.width+"px" : "250px";
         window.style.height = options.height ? options.height+"px" : "150px";
         window.style.background = options.background || "#555";
-        window.style.borderRadius = "0 0 5px 5px";
-        window.style.boxShadow = "0 0 5px black";
-        window.style.overflow = "hidden";
+        window.className += "NUXT-BodyMain";
         title.append(window)
 
         //Set Up User Window
@@ -78,13 +69,13 @@ const NEXT = {
         return userWindow;
     },
 
-    new: function(windowName, objectType) {
+    new(windowName, objectType) {
         const object = document.createElement(objectType);
         this.get(windowName).append(object);
         return object;
     },
 
-    get: function(windowName) {
+    get(windowName) {
         const window = document.getElementById(this.variables.objectPrefix+windowName);
         if (window) {
             return window;
@@ -93,7 +84,7 @@ const NEXT = {
         }
     },
     
-    getRaw: function(windowName) {
+    getRaw(windowName) {
         const raw = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
         if (raw) {
             return raw;
@@ -102,43 +93,42 @@ const NEXT = {
         }
     },
 
-    toggle: function(windowName) {
+    toggle(windowName) {
         const windowTitle = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
-        console.log(typeof windowTitle.style.visibility)
         if (windowTitle) {
             if (windowTitle.style.visibility == "visible") {
                 windowTitle.style.visibility = "hidden";
-                this.log("Toggle- Hid Window: "+windowName);
+                this.log("Toggle- Window Hidden: "+windowName);
             } else {
                 windowTitle.style.visibility = "visible";
-                this.log("Toggle- Shown Window: "+windowName);
+                this.log("Toggle- Window Shown: "+windowName);
             }
         } else {
             return this.log("Error showing window '"+windowName+"'. Window not found.", true);
         }
     },
 
-    show: function(windowName) {
+    show(windowName) {
         const windowTitle = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
         if (windowTitle) {
             windowTitle.style.visibility = "visible";
-            this.log("Shown Window: "+windowName);
+            this.log("Window Shown: "+windowName);
         } else {
             return this.log("Error showing window '"+windowName+"'. Window not found.", true);
         }
     },
 
-    hide: function(windowName) {
+    hide(windowName) {
         const windowTitle = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
         if (windowTitle) {
             windowTitle.style.visibility = "hidden";
-            this.log("Hid Window: "+windowName);
+            this.log("Window Hidden: "+windowName);
         } else {
             return this.log("Error hiding window '"+windowName+"'. Window not found.", true);
         }
     },
 
-    close: function(windowName) {
+    close(windowName) {
         const windowTitle = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
         if (windowTitle) {
             windowTitle.remove();
@@ -148,22 +138,50 @@ const NEXT = {
         }
     },
     
-    css: function(style) {
+    css(style) {
         var styleSheet = document.createElement("style");
         styleSheet.type = "text/css";
         styleSheet.innerText = style;
         document.head.appendChild(styleSheet);
         return styleSheet;
+    },
+
+    init() {
+        console.log(this.variables.isInit)
+        if (this.variables.isInit == true) return;
+        //---   Create Dependant CSS   ---//
+        this.css(`
+        .NUXT-Title {
+            z-index: 1000;
+            position: absolute;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            height: 30px;
+            border-radius: 5px 5px 0 0;
+            border: 0 0 5px gray;
+            padding: 5px 0 0 10px;
+            box-sizing: border-box;
+        }
+
+        .NUXT-BodyMain {
+            transform: translate(-10px, 3px);
+            z-index: 999;
+            border-radius: 0 0 5px 5px;
+            outline: 0 0 5px gray;
+            overflow: hidden;
+        }
+
+        .NUXT-Close {
+            font-family: Arial, Helvetica, sans-serif;
+            position: absolute;
+            top: 3px;
+            right: 7px;
+            cursor: pointer;
+            color: #ff5566;
+        }
+        `);
+
+        this.variables.isInit = true;
     }
 
 }
-
-
-
-/*
-
-Changelog:
-+ Added "NEXT.getRaw"
-+ Bug Fixes
-+ Added "NEXT.css" to insert a CSS file into the page
-*/
