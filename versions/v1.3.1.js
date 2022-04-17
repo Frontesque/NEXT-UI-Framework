@@ -23,9 +23,7 @@ const NEXT = {
             xhttp.send();
             xhttp.onreadystatechange = function() {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    const words = xhttp.responseText.split('\n');
-                    vm.variables.words = words;
-                    return words;
+                    return xhttp;
                 }
             }
         },
