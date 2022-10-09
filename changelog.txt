@@ -1,0 +1,19 @@
+v1.5:
++ Improve window drag handling
++ Rework how windows are created
+
+v1.4:
++ ( NOT LOGGED )
+
+v1.3:
++ ( NOT LOGGED )
+
+v1.2:
++ Added "background" option in creation settings
++ Added "titleBackground" option in creation settings
+
+v1.1:
++ ( NOT LOGGED )
+
+v1.0:
++ Hey 👋

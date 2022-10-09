@@ -1,7 +1,7 @@
 const NEXT = {
 
     variables: {
-        version: "1.4",
+        version: "1.3",
         objectPrefix: "NEXT-",
         titleBarSuffix: "-TITLE",
         logPrefix: "[NEXT Framework]",
@@ -160,6 +160,7 @@ const NEXT = {
             padding: 5px 0 0 10px;
             box-sizing: border-box;
             border-bottom: none !important;
+            cursor: move;
         }
 
         .NUXT-BodyMain {
