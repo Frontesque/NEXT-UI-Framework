@@ -2,7 +2,7 @@ NEXT.create('dummy', {
     canExit: false,
 });
 NEXT.new('dummy','div')
-    .innerHTML = `Welcome to NEXT UI Framework <span style="background: #999; border-radius: 3px;">${NEXT.variables.version}</span>!`
+    .innerHTML = `Welcome to NEXT UI Framework <span style="background: #999; border-radius: 3px;">v${NEXT.variables.version}</span>!`
 
 const mainWindow = NEXT.create('main', {
     title: 'NEXT Framework Example',

@@ -1,6 +1,8 @@
 v1.5:
 + Improve window drag handling
 + Rework how windows are created
++ Increase z-index of windows from `1000` to `9998`
++ Rwork how windows are accessed & stacked
 
 v1.4:
 + ( NOT LOGGED )

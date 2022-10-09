@@ -1,9 +1,10 @@
 const NEXT = {
 
     variables: {
-        version: "1.3",
+        version: "1.5",
         objectPrefix: "NEXT-",
         titleBarSuffix: "-TITLE",
+        containerSuffix: "-CONTAINER",
         logPrefix: "[NEXT Framework]",
         errorPrefix: "(ERROR)",
 
@@ -11,7 +12,40 @@ const NEXT = {
     },
 
     frameworks: {
-        dragElement: function(e){function n(e){e=e||window.event,e.preventDefault(),d=e.clientX,m=e.clientY,document.onmouseup=o,document.onmousemove=t}function t(n){n=n||window.event,n.preventDefault(),u=d-n.clientX,l=m-n.clientY,d=n.clientX,m=n.clientY,e.style.top=e.offsetTop-l+"px",e.style.left=e.offsetLeft-u+"px"}function o(){document.onmouseup=null,document.onmousemove=null}var u=0,l=0,d=0,m=0;document.getElementById(e.id+"header")?document.getElementById(e.id+"header").onmousedown=n:e.onmousedown=n}
+        dragElement(elmnt,header) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            header.onmousedown = dragMouseDown;
+          
+            function dragMouseDown(e) {
+              e = e || window.event;
+              e.preventDefault();
+              // get the mouse cursor position at startup:
+              pos3 = e.clientX;
+              pos4 = e.clientY;
+              document.onmouseup = closeDragElement;
+              // call a function whenever the cursor moves:
+              document.onmousemove = elementDrag;
+            }
+          
+            function elementDrag(e) {
+              e = e || window.event;
+              e.preventDefault();
+              // calculate the new cursor position:
+              pos1 = pos3 - e.clientX;
+              pos2 = pos4 - e.clientY;
+              pos3 = e.clientX;
+              pos4 = e.clientY;
+              // set the element's new position:
+              elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+              elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+          
+            function closeDragElement() {
+              // stop moving when mouse button is released:
+              document.onmouseup = null;
+              document.onmousemove = null;
+            }
+          }
     },
 
     log(text, err) {
@@ -26,13 +60,18 @@ const NEXT = {
 
         this.init();
 
+        //---   Setup Main Window Container   ---//
+        const container = document.createElement('div');
+        container.id = this.variables.objectPrefix+windowName+this.variables.containerSuffix;
+        container.className += "NEXT-Container";
+
         //Set Up Title Bar
         const title = document.createElement('div');
         if(options.draggable != false) {
-            this.frameworks.dragElement(title)
+            this.frameworks.dragElement(container, title)
         }
 
-        title.className += "NUXT-Title NUXT-Border";
+        title.className += "NEXT-Title NEXT-Border";
         title.innerHTML = options.title || windowName;
         title.id = this.variables.objectPrefix+windowName+this.variables.titleBarSuffix;
         title.style.width = options.width ? options.width+"px" : "250px";
@@ -41,30 +80,30 @@ const NEXT = {
         //Set Up Close Window
         const close = document.createElement('div');
         close.innerHTML = "x";
-        close.className += "NUXT-Close";
+        close.className += "NEXT-Close";
         title.append(close);
 
-        close.onclick = function() {
-            title.remove();
-        }
-        if (options.canExit == false) {
-            close.style.display = "none";
-        }
+        close.onclick = () => { title.remove(); };
+        if (options.canExit == false) close.style.display = "none";
 
         //Set Up Window
         const window = document.createElement('div');
         window.style.width = options.width ? options.width+"px" : "248px";
         window.style.height = options.height ? options.height+"px" : "150px";
         window.style.background = options.background || "#555";
-        window.className += "NUXT-BodyMain NUXT-Border";
-        title.append(window)
+        window.className += "NEXT-BodyMain NEXT-Border";
 
         //Set Up User Window
         const userWindow = document.createElement('div');
         userWindow.id = this.variables.objectPrefix+windowName;
+        
+        //---   Create Layout   ---//
+        container.append(title);
+        container.append(window);
         window.append(userWindow)
+        document.body.append(container);
 
-        document.body.append(title)
+        //---   Finalize   ---//
         this.log("Created Window: "+windowName);
         return userWindow;
     },
@@ -85,7 +124,7 @@ const NEXT = {
     },
     
     getRaw(windowName) {
-        const raw = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
+        const raw = document.getElementById(this.variables.objectPrefix+windowName+this.variables.containerSuffix);
         if (raw) {
             return raw;
         } else {
@@ -94,13 +133,13 @@ const NEXT = {
     },
 
     toggle(windowName) {
-        const windowTitle = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
-        if (windowTitle) {
-            if (windowTitle.style.visibility == "visible") {
-                windowTitle.style.visibility = "hidden";
+        const container = document.getElementById(this.variables.objectPrefix+windowName+this.variables.containerSuffix);
+        if (container) {
+            if (container.style.visibility == "visible") {
+                container.style.visibility = "hidden";
                 this.log("Toggle- Window Hidden: "+windowName);
             } else {
-                windowTitle.style.visibility = "visible";
+                container.style.visibility = "visible";
                 this.log("Toggle- Window Shown: "+windowName);
             }
         } else {
@@ -109,9 +148,9 @@ const NEXT = {
     },
 
     show(windowName) {
-        const windowTitle = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
-        if (windowTitle) {
-            windowTitle.style.visibility = "visible";
+        const container = document.getElementById(this.variables.objectPrefix+windowName+this.variables.containerSuffix);
+        if (container) {
+            container.style.visibility = "visible";
             this.log("Window Shown: "+windowName);
         } else {
             return this.log("Error showing window '"+windowName+"'. Window not found.", true);
@@ -119,9 +158,9 @@ const NEXT = {
     },
 
     hide(windowName) {
-        const windowTitle = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
-        if (windowTitle) {
-            windowTitle.style.visibility = "hidden";
+        const container = document.getElementById(this.variables.objectPrefix+windowName+this.variables.containerSuffix);
+        if (container) {
+            container.style.visibility = "hidden";
             this.log("Window Hidden: "+windowName);
         } else {
             return this.log("Error hiding window '"+windowName+"'. Window not found.", true);
@@ -129,9 +168,9 @@ const NEXT = {
     },
 
     close(windowName) {
-        const windowTitle = document.getElementById(this.variables.objectPrefix+windowName+this.variables.titleBarSuffix);
-        if (windowTitle) {
-            windowTitle.remove();
+        const container = document.getElementById(this.variables.objectPrefix+windowName+this.variables.containerSuffix);
+        if (container) {
+            container.remove();
             this.log("Closed Window: "+windowName);
         } else {
             return this.log("Error closing window '"+windowName+"'. Window not found.", true);
@@ -150,9 +189,13 @@ const NEXT = {
         if (this.variables.isInit == true) return;
         //---   Create Dependant CSS   ---//
         this.css(`
-        .NUXT-Title {
-            z-index: 1000;
+        .NEXT-Container {
             position: absolute;
+            z-index: 9998;
+        }
+
+        .NEXT-Title {
+            z-index: 10000;
             font-family: Arial, Helvetica, sans-serif;
             color: white;
             height: 30px;
@@ -163,15 +206,14 @@ const NEXT = {
             cursor: move;
         }
 
-        .NUXT-BodyMain {
-            transform: translate(-11px, 4px);
-            z-index: 999;
+        .NEXT-BodyMain {
+            z-index: 9999;
             border-radius: 0 0 5px 5px;
             overflow: hidden;
             border-top: none !important;
         }
 
-        .NUXT-Close {
+        .NEXT-Close {
             font-family: Arial, Helvetica, sans-serif;
             position: absolute;
             top: 3px;
@@ -180,7 +222,7 @@ const NEXT = {
             color: #ff5566;
         }
 
-        .NUXT-Border {
+        .NEXT-Border {
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         `);
