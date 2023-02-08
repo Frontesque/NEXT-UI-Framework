@@ -37,7 +37,7 @@ toggleButton.onclick = () => {
 ```
 
 ## Documentation
-### NEXT.create
+### NEXT.create(string: 'window title', object: { see below })
 - title: string
 - canExit: boolean
 - width: integer
@@ -45,3 +45,5 @@ toggleButton.onclick = () => {
 - background: string (HEX)
 - titleBackground: string (HEX)
 - draggable: boolean
+
+### NEXT.new(string: 'window title', string: 'object type (eg. div)')
